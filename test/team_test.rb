@@ -11,5 +11,10 @@ class TeamTest < Minitest::Test
     assert_instance_of Team, team
   end
 
+  def test_it_has_a_country
+    team = Team.new("France")
+    assert_equal "France", team.country
+  end
+
 
 end
