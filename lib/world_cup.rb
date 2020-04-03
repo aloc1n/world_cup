@@ -1,6 +1,7 @@
+require './lib/team'
+
 class WorldCup
   attr_reader :year, :teams
-  # attr_accessor :teams
 
   def initialize(year, teams)
     @year = year
@@ -17,9 +18,15 @@ class WorldCup
     all_active_players_array.flatten!
   end
 
-  def active_players_by_position(position)
-    all_active_players.find_all do |active_player|
-      active_player.position == position
+  def active_players_by_position(position_str)
+    @teams.select {|team| !team.eliminated?}.collect_concat do |team|
+      team.players_by_position(position_str)
+    end
+  end
+
+  def all_players_by_position
+    @teams.collect_concat { |team| team.players}.group_by do |player|
+      player.position
     end
   end
 
